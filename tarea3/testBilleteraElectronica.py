@@ -11,12 +11,15 @@ fecha1=datetime(2015,4,25)
 fecha2=datetime(2015,8,25)
 billetera=BilleteraElectronica("Pingüinación","Pe-ñascos",24981045,"0124")
 billetera2=BilleteraElectronica("Juan","Pepito",20991820,"Tumama")
-
+billeteraFrontera=BilleteraElectronica("H","-",11111111,"")
+        
 class testBilleteraElectronica(unittest.TestCase):
+    
+    # Casos de prueba del desarrollo TDD 
     
     def testTDD1(self):
         #Test verificacion del constructor
-        #Verifica la aceptacion de caracteres especiales del español
+        #Verifica la aceptacion de caracteres especiales del espanol
         self.assertEqual(["Pingüinación","Pe-ñascos",24981045],[billetera.nombres,billetera.apellidos,billetera.CI])
     
     def testTDD2(self):
@@ -52,7 +55,41 @@ class testBilleteraElectronica(unittest.TestCase):
         saldoAntesRecarga=billetera.saldo()
         self.assertEqual(billetera.consumir(100.0,fecha1,0,"0124"),saldoAntesRecarga)
         
-
+    # Casos de prueba analisis de fronteras
+    
+    def testFrontera1(self):
+        # Test de verificacion de caso frontera para la clase BilleteraElectronica
+        billetera=BilleteraElectronica("","",0,"0124")
+        self.assertEqual(["","",0],[billetera.nombres,billetera.apellidos,billetera.CI])
+    
+    def testFrontera2(self):
+        # Test de verificacion de CI correcto
+        self.assertRaises(TypeError,BilleteraElectronica("","","","0124"))
+        
+    def testFrontera3(self):
+        #Test verificacion de recarga monto valido frontera numero pequeno
+        saldoAntesRecarga=billeteraFrontera.saldo()
+        numerochiquito=0.0000001
+        self.assertEqual(billeteraFrontera.recarga(numerochiquito,fecha1,0),saldoAntesRecarga+numerochiquito)
+        
+    def testFrontera4(self):
+        #Test verificacion de recarga monto valido frontera numero grande
+        saldoAntesRecarga=billeteraFrontera.saldo()
+        numerogrande=2**32
+        self.assertEqual(billeteraFrontera.recarga(numerogrande,fecha1,0),saldoAntesRecarga+numerogrande)
+    
+    def testFrontera5(self):
+        #Test verificacion de consumir monto valido frontera numero pequeno
+        saldoAntesRecarga=billeteraFrontera.saldo()
+        numerochiquito=0.0000001
+        self.assertEqual(billeteraFrontera.consumir(numerochiquito,fecha1,0,""),saldoAntesRecarga-numerochiquito)
+        
+    def testFrontera6(self):
+        #Test verificacion de consumir monto valido frontera numero grande
+        saldoAntesRecarga=billeteraFrontera.saldo()
+        numerogrande=2**32
+        self.assertEqual(billeteraFrontera.consumir(numerogrande,fecha1,0,""),saldoAntesRecarga-numerogrande)
+    
+    
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

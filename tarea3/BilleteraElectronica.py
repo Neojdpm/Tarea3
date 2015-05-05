@@ -9,9 +9,12 @@ from datetime import datetime
 class BilleteraElectronica(object):
     id=0    #Identificador estatico
     def __init__(self, nombres, apellidos, CI, PIN):
+        #Verificacion de CI, levanta excepcion
+        if type(CI)!=type(1) or CI<0:
+            raise TypeError
+        else: self.CI=CI
         self.nombres=nombres
         self.apellidos=apellidos
-        self.CI=CI
         self.__PIN=PIN
         self.__creditos=[]
         self.__debitos=[]
