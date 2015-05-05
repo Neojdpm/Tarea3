@@ -29,8 +29,14 @@ class BilleteraElectronica(object):
         return self.__debitos
     
     def recarga(self, monto, fecha, idlocal):
-        if type(monto)!=type(1) or monto<=0:
+        try:
+            monto+=0.0 #Verificacion del monto
+        except:
             print("Error en el monto")
+            return self.__saldo
+        
+        if monto<=0:
+            print("El monto debe ser mayor a 0")
         elif datetime!=type(fecha):
             print("Error en la fecha")
         else:
@@ -39,8 +45,14 @@ class BilleteraElectronica(object):
         return self.__saldo
 
     def consumir(self, monto, fecha, idestacionamiento, clavePIN):
-        if type(monto)!=type(1) or monto<=0:
+        try:
+            monto+=0.0 #Verificacion del monto
+        except:
             print("Error en el monto")
+            return self.__saldo
+        
+        if monto<=0:
+            print("El monto debe ser mayor a 0")
         elif datetime!=type(fecha):
             print("Error en la fecha")
         else:

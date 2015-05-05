@@ -50,7 +50,7 @@ class testBilleteraElectronica(unittest.TestCase):
     def testTDD8(self):
         #Test verificacion de recarga base
         saldoAntesRecarga=billetera.saldo()
-        self.assertEqual(billetera.consumir(100.0,fecha1,0,"0124"),saldoAntesRecarga-100)
+        self.assertEqual(billetera.consumir(100.0,fecha1,0,"0124"),saldoAntesRecarga)
         
 
 if __name__ == "__main__":
