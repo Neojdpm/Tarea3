@@ -9,14 +9,15 @@ from BilleteraElectronica import *
 
 fecha1=datetime(2015,4,25)
 fecha2=datetime(2015,8,25)
-billetera=BilleteraElectronica("Alberto","Perez",24981045,"0124")
+billetera=BilleteraElectronica("Pingüinación","Pe-ñascos",24981045,"0124")
 billetera2=BilleteraElectronica("Juan","Pepito",20991820,"Tumama")
 
 class testBilleteraElectronica(unittest.TestCase):
     
     def testTDD1(self):
         #Test verificacion del constructor
-        self.assertEqual(["Alberto","Perez",24981045],[billetera.nombres,billetera.apellidos,billetera.CI])
+        #Verifica la aceptacion de caracteres especiales del español
+        self.assertEqual(["Pingüinación","Pe-ñascos",24981045],[billetera.nombres,billetera.apellidos,billetera.CI])
     
     def testTDD2(self):
         #Test verificacion de valores iniciales
@@ -40,6 +41,16 @@ class testBilleteraElectronica(unittest.TestCase):
         #Test verificacion de credito/debito base
         self.assertEqual(billetera.creditos(),[[100,fecha1,0]])
         self.assertEqual(billetera.debitos(),[[100,fecha2,0]])
+    
+    def testTDD7(self):
+        #Test verificacion de recarga base
+        saldoAntesRecarga=billetera.saldo()
+        self.assertEqual(billetera.recarga("100",fecha1,0),saldoAntesRecarga)
+    
+    def testTDD8(self):
+        #Test verificacion de recarga base
+        saldoAntesRecarga=billetera.saldo()
+        self.assertEqual(billetera.consumir(100.0,fecha1,0,"0124"),saldoAntesRecarga-100)
         
 
 if __name__ == "__main__":
